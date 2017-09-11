@@ -1,4 +1,4 @@
-var CURRENCY_SERVICE_URL = "http://api.fixer.io/latest";
+    var CURRENCY_SERVICE_URL = "http://api.fixer.io/latest";
 var refreshTimeDelay = 5000;
 var continousLoad;
 
