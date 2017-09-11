@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html ng-app="currencyCalc">
+<head>
+    <meta charset="utf-8"/>
+    
+    <meta name="description" content="Currency Calculator"/>
+    <title>Currency Calculator</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    
+</head>
+<body>
+ <section class="CalcBudg">
+   <div id="main" ng-controller="CalcController">
+     <div id="header" ng-class="(netConnectivity == 1 || netConnectivity == 3) ? 'labelInactive' : 'labelActive'" class="container-fluid">
+      <h2 class="text-center">Currency Calculator</h2>
+     </div>
+       <div id="dateHeader" class="container-fluid">
+        <p ng-if="(netConnectivity == 0) || (netConnectivity == 2)" class="text-center">The currency data is from {{currencyData.date}}</p>
+        <p ng-if="(netConnectivity == 1) || (netConnectivity == 3)" class="text-center">No Internet connection!</p>
+        <p class="text-center"><a href="http://www.senojflags.com">Country flag</a> image from <a href="http://www.senojflags.com">Flags of all Countries</a></p>
+       </div>
+     <div class="container-fluid">
+       <div class="row">
+        <div id="leftcolumn" class="col-xs-6">
+            <div class="form-group">
+          		  <label for="currency1">Cash amount</label>
+          		  <input ng-disabled="(netConnectivity == 1) || (netConnectivity == 3)" type="number" class="form-control" id="currency1" placeholder="type amount" ng-maxlength="10" step="0.01" ng-change="currencyChanged(moneyAmount, selectedCur)" ng-model="moneyAmount" input-block input-block-length="validLength">
+            </div>
+       </div>
+       <div id="rightcolumn" class="col-xs-6">
+          <div class="row">
+             <label id="labelCash1" for="cash1">Currency:</label><br>
+             <div class="col-xs-9">
+               <select id="currencySelector" ng-disabled="(netConnectivity == 1) || (netConnectivity == 3)" class="form-control" ng-options="item.currency as item.currency for item in parsedList" name="category" id="cash1" ng-change="currencyChanged(moneyAmount, selectedCur)" ng-model="selectedCur" required></select>
+             </div>
+               <div class="col-xs-3">
+               <img id="selectedFlag" ng-if="(netConnectivity == 0) || (netConnectivity == 2)" ng-src="images/flags/48/{{selectedCur}}.png"></img>
+             </div>
+          </div>
+       </div>
+      </div>
+    </div>
+    <div id="dateHeader" class="container-fluid" ng-show="currencyList[0]">
+      <p class="text-center">Exchange rates provided by Fixer.io</p>
+    </div>
+    <div id="currencyList" ng-show="currencyList[0]">
+         <div ng-animate="'animate'" ng-repeat="curr in currencyList | myFormat: selectedCur" ng-class-even="'evenCurrencyStyle'" ng-class-odd="'oddCurrencyStyle'">
+               <img id="rowFlag" ng-src="images/flags/48/{{curr.currency}}.png"></img>
+               {{curr.rate}}
+            <b>{{curr.currency}}</b> =
+               {{curr.amount}}
+            <b>{{curr.base}}</b>
+        </div>
+    </div>
+</div>
+</div>
+    <section clas="Budget">
+        <div class="top">
+            <div class="budget">
+                <div class="budget__title">
+                    Available Budget in <span class="budget__title--month">%Month%</span>:
+                </div>
+                
+                <div class="budget__value">+ 2,345.64</div>
+                
+                <div class="budget__income clearfix">
+                    <div class="budget__income--text">Income</div>
+                    <div class="right">
+                        <div class="budget__income--value">+ 4,300.00</div>
+                        <div class="budget__income--percentage">&nbsp;</div>
+                    </div>
+                </div> 
+                <div class="budget__expenses clearfix">
+                    <div class="budget__expenses--text">Expenses</div>
+                    <div class="right clearfix">
+                        <div class="budget__expenses--value">- 1,954.36</div>
+                        <div class="budget__expenses--percentage">45%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="add">
+                <div class="add__container">
+                    <select class="add__type">
+                        <option value="inc" selected>+</option>
+                        <option value="exp">-</option>
+                    </select>
+                    <input type="text" class="add__description" placeholder="Add description">
+                    <input type="number" class="add__value" placeholder="Value">
+                    <button class="add__btn"><i class="ion-ios-checkmark-outline"></i></button>
+                </div>
+            </div>
+            <div class="container clearfix">
+                <div class="income">
+                    <h2 class="icome__title">Income</h2>
+                    <div class="income__list">
+                    </div>
+                </div>
+                <div class="expenses">
+                    <h2 class="expenses__title">Expenses</h2>
+                    
+                    <div class="expenses__list">
+                    </div>
+                </div>
+             </div>
+        </div>
+    </section>
+   </div>
+  </section>
+</div>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/lodash.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/ngStorage.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    <script src="js/money.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
